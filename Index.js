@@ -154,7 +154,17 @@ function buildWelcomeEmailHTML(email) {
           <span style="font-size: 13px; color: #bbb;">On the 1st of each month, we'll email you a report showing where you stand and what's about to expire.</span>
         </div>
       </div>
-      <div style="padding: 16px 24px; text-align: center; border-top: 1px solid #1e1e23;">
+      <div style="padding: 20px 24px; text-align: center; border-top: 1px solid #1e1e23; border-bottom: 1px solid #1e1e23;">
+        <p style="font-size: 13px; color: #999; margin: 0 0 16px;">Your tracker is ready — 20 benefits pre-loaded, nothing to configure.</p>
+        <table cellpadding="0" cellspacing="0" border="0" style="margin: 16px auto;">
+  <tr>
+    <td style="background: #c9a96e; border-radius: 10px;">
+      <a href="https://amex-platinum-tracker.onrender.com" style="display: block; padding: 14px 32px; color: #111; text-decoration: none; font-size: 15px; font-weight: 700; font-family: system-ui, sans-serif;">Open Your Tracker →</a>
+    </td>
+  </tr>
+</table>
+      </div>
+      <div style="padding: 16px 24px; text-align: center;">
         <p style="font-size: 11px; color: #555; margin: 0;">You're receiving this because ${email} signed up for Amex Benefits Coach. Reply to unsubscribe.</p>
       </div>
     </div>
@@ -167,7 +177,6 @@ function buildMonthlyReportHTML(email) {
   const month = months[now.getMonth()];
   const year = now.getFullYear();
 
-  // These are the key benefits with their current-period values
   const benefits = [
     { name: "Uber Cash", value: "$15", period: "this month", resets: "end of month" },
     { name: "Digital Entertainment", value: "$25", period: "this month", resets: "end of month" },
@@ -222,7 +231,18 @@ function buildMonthlyReportHTML(email) {
         <p style="font-size: 12px; color: #999; line-height: 1.6; margin: 0;">- Open your tracker to log usage and check your keep-or-cancel score</p>
       </div>
 
-      <div style="padding: 16px 24px; text-align: center; border-top: 1px solid #1e1e23;">
+      <div style="padding: 20px 24px; text-align: center; border-top: 1px solid #1e1e23; border-bottom: 1px solid #1e1e23;">
+        <p style="font-size: 13px; color: #999; margin: 0 0 16px;">Log this month's usage and see your keep-or-cancel verdict.</p>
+        <table cellpadding="0" cellspacing="0" border="0" style="margin: 16px auto;">
+  <tr>
+    <td style="background: #c9a96e; border-radius: 10px;">
+      <a href="https://amex-platinum-tracker.onrender.com" style="display: block; padding: 14px 32px; color: #111; text-decoration: none; font-size: 15px; font-weight: 700; font-family: system-ui, sans-serif;">Update Your Tracker →</a>
+    </td>
+  </tr>
+</table>
+      </div>
+
+      <div style="padding: 16px 24px; text-align: center;">
         <p style="font-size: 11px; color: #555; margin: 0;">Sent to ${email} by Amex Benefits Coach. Reply to unsubscribe.</p>
       </div>
     </div>
@@ -232,10 +252,24 @@ function buildMonthlyReportHTML(email) {
 // ============================================
 // EMAIL SENDING FUNCTIONS
 // ============================================
-
 async function sendWelcomeEmail(email) {
   try {
-    await resend.emails.send({
+    const result = await resend.emails.send({
+      from: "Amex Benefits Coach <onboarding@resend.dev>",
+      to: email,
+      subject: "Welcome — let's maximize your Platinum benefits",
+      html: buildWelcomeEmailHTML(email),
+    });
+    console.log("Resend response:", JSON.stringify(result));
+    if (result.error) {
+      console.error("Resend error:", JSON.stringify(result.error));
+    } else {
+      console.log("Welcome email sent to:", email);
+    }
+  } catch (err) {
+    console.error("Failed to send welcome email:", err.message);
+  }
+}
       from: "Amex Benefits Coach <onboarding@resend.dev>",
       to: email,
       subject: "Welcome — let's maximize your Platinum benefits",
