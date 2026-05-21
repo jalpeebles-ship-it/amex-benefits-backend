@@ -257,7 +257,7 @@ async function sendWelcomeEmail(email) {
     const result = await resend.emails.send({
       from: "Amex Benefits Coach <onboarding@resend.dev>",
       to: email,
-      subject: "Welcome — let's maximize your Platinum benefits",
+      subject: "Welcome - let's maximize your Platinum benefits",
       html: buildWelcomeEmailHTML(email),
     });
     console.log("Resend response:", JSON.stringify(result));
@@ -266,16 +266,6 @@ async function sendWelcomeEmail(email) {
     } else {
       console.log("Welcome email sent to:", email);
     }
-  } catch (err) {
-    console.error("Failed to send welcome email:", err.message);
-  }
-}
-      from: "Amex Benefits Coach <onboarding@resend.dev>",
-      to: email,
-      subject: "Welcome — let's maximize your Platinum benefits",
-      html: buildWelcomeEmailHTML(email),
-    });
-    console.log("Welcome email sent to:", email);
   } catch (err) {
     console.error("Failed to send welcome email:", err.message);
   }
